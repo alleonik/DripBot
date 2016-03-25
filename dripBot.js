@@ -229,7 +229,7 @@ $dripBot = (function($, oldDripBot, isPro) {
 	datamonsterConfigured = false,
 	stage3counter = 0,
 	clickCountDivisor = 1,
-    excludedPowerups = ["Spring Framework"],
+    excludedPowerups = [],
 	excludedUpgrades = [];
 
 	var beautify = function(e) {
@@ -604,22 +604,7 @@ $dripBot = (function($, oldDripBot, isPro) {
 
 	var sortOTBList = function(otbList) {
 		return otbList.sort(function(a,b) {
-			var sign = 1,
-			shorter,
-			longer,
-			delta;
-			if(b.timeToPurchase >= a.timeToPurchase) {
-				shorter = a;
-				longer = b;
-				sign = 1;
-			} else {
-				shorter = b;
-				longer = a;
-				sign = -1;
-			}
-			var delta = longer.timeToPurchase - shorter.timeToPurchase;
-			var newLongerPrice = longer.price + shorter.bps * delta;
-			return (shorter.price / shorter.bps - newLongerPrice / longer.bps) * sign; // Adjust based on which was shorter.
+            return (a.price / b.bps + a.timeToPurchase - b.price / a.bps - b.timeToPurchase);
 		});
 	}
 
