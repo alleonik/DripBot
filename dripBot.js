@@ -604,7 +604,7 @@ $dripBot = (function($, oldDripBot, isPro) {
 
 	var sortOTBList = function(otbList) {
 		return otbList.sort(function(a,b) {
-            return (a.price / b.bps + a.timeToPurchase - b.price / a.bps - b.timeToPurchase);
+            return (a.price / a.bps + a.timeToPurchase - b.price / b.bps - b.timeToPurchase);
 		});
 	}
 
