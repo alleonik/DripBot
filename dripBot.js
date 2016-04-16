@@ -452,6 +452,21 @@ $dripBot = (function($, oldDripBot, isPro) {
 		}
 	}
 
+	var isSPexcluded = new Save(isSPexcluded, false); 
+
+	var toggleSPexcluded = function(bool) {
+		isSPexcluded.set(bool || false);
+		setExcludedPowerups();
+	}
+
+    var setExcludedPowerups = function() {
+		if (isSPexcluded.obj && !$.inArray("Spring Framework", excludedPowerups)) {
+			excludedPowerups.push("Spring Framework");
+		} else if (!isSPexcluded.obj && $.inArray("Spring Framework", excludedPowerups)) {
+			excludedPowerups.remove("Spring Framework");
+		}
+	}
+
 	var clicking = new Save('clicking', false);
 	var clicksLeft = new Save('clicksLeft', 2000);
 	var autoBuy = new Save('autoBuy', false);
@@ -1042,6 +1057,8 @@ $dripBot = (function($, oldDripBot, isPro) {
 		updateClickInterval();
 		clickCup();
 
+        setExcludedPowerups();
+
 		// Emergency clicks, sometimes game stalls.
 		new TimeoutMod(function() { clickCup(); }, 2000);
 		new TimeoutMod(function() { clickCup(); }, 5000);
@@ -1331,6 +1348,8 @@ $dripBot = (function($, oldDripBot, isPro) {
 		setPauseRndBound: setPauseRndBound,
 		setClickTimeMean: setClickTimeMean,
 		setClickTimeRndBound: setClickTimeRndBound,
+
+		toggleSPexcluded: toggleSPexcluded,
 
 		save: save,
 		stop: stop,
