@@ -463,7 +463,7 @@ $dripBot = (function($, oldDripBot, isPro) {
 		if (isSPexcluded.obj && !$.inArray("Spring Framework", excludedPowerups)) {
 			excludedPowerups.push("Spring Framework");
 		} else if (!isSPexcluded.obj && $.inArray("Spring Framework", excludedPowerups)) {
-			excludedPowerups.remove("Spring Framework");
+			excludedPowerups.pop();
 		}
 	}
 
