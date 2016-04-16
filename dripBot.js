@@ -222,7 +222,8 @@ $dripBot = (function($, oldDripBot, isPro) {
 	currentLeader = '',
 	benevolentLeader = false,
 	showPops = true,
-	MINUTE = 60 * 1000,
+	SECOND = 1000,
+	MINUTE = 60 * SECOND,
 	topThing = null,
 	datamonsterLoaded = false,
 	datamonsterRequested = false,
@@ -455,6 +456,42 @@ $dripBot = (function($, oldDripBot, isPro) {
 	var clicksLeft = new Save('clicksLeft', 2000);
 	var autoBuy = new Save('autoBuy', false);
 	var stage3threshold = new Save('stage3threshold', 7 * 1000 * 1000);
+	var clicksMean = new Save('clicksMean', 2200);
+	var clicksRndBound = new Save('clicksRndBound', 500);
+	var pauseMean = new Save('pauseMean', 5 * MINUTE);
+	var pauseRndBound = new Save('pauseRndBound', 2 * MINUTE);
+	var clickTimeMean = new Save('clickTimeMean', 100);
+	var clickTimeRndBound = new Save('clickTimeRndBound', 50);
+
+    var setClicksMean = function(num) {
+		clicksMean.set(num);
+		updateClickInterval();
+	}
+
+    var setClicksRndBound = function(num) {
+		clicksRndBound.set(num);
+		updateClickInterval();
+	}
+
+    var setPauseMean = function(num) {
+		pauseMean.set(num);
+		updateClickInterval();
+	}
+
+    var setPauseRndBound = function(num) {
+		pauseRndBound.set(num);
+		updateClickInterval();
+	}
+
+    var setClickTimeMean = function(num) {
+		clickTimeMean.set(num);
+		updateClickInterval();
+	}
+
+    var setClickTimeRndBound = function(num) {
+		clickTimeRndBound.set(num);
+		updateClickInterval();
+	}
 
 	function Rc4Random(seed) {
 		var keySchedule = [];
@@ -535,7 +572,7 @@ $dripBot = (function($, oldDripBot, isPro) {
 	var updateClickInterval = function() {
 		clicker.timeout = getNewClickTimeout();
 
-		if(clicker.timeout < 60000) {
+		if(clicker.timeout < pauseMean.obj) {
 			$('#click-interval-message').text("Clicks Left: " + clicksLeft.obj);
 		} else {
 			var minutes = Math.floor(clicker.timeout / MINUTE);
@@ -935,17 +972,17 @@ $dripBot = (function($, oldDripBot, isPro) {
 	var getNewClickTimeout = function() {
 		var temp = rc4Rand.getRandomNumber();
 		if(clicksLeft.obj < 1) {
-			temp = temp * 2 * MINUTE + 5 * MINUTE;
+			temp = temp * pauseRndBound.obj + pauseMean.obj;
 			getNewClicksTillBreak();
 		} else {
-			temp = temp * 50 + 100;
+			temp = temp * clickTimeRndBound.obj + clickTimeMean.obj;
 			clicksLeft.set(clicksLeft.obj - 1);
 		}
 		return Math.floor(temp);
 	}
 
 	var getNewClicksTillBreak = function() {
-		clicksLeft.set(Math.floor(rc4Rand.getRandomNumber() * 500 + 2200));
+		clicksLeft.set(Math.floor(rc4Rand.getRandomNumber() * clicksRndBound.obj + clicksMean.obj));
 		clickCountDivisor = clicksLeft.obj;
 	}
 
@@ -1287,6 +1324,13 @@ $dripBot = (function($, oldDripBot, isPro) {
 		setBenevolentLeader: setBenevolentLeader,
 		setShowPops: setShowPops,
 		refreshJvms: refreshJvms,
+
+        setClicksMean: setClicksMean,
+		setClicksRndBound: setClicksRndBound,
+		setPauseMean: setPauseMean,
+		setPauseRndBound: setPauseRndBound,
+		setClickTimeMean: setClickTimeMean,
+		setClickTimeRndBound: setClickTimeRndBound,
 
 		save: save,
 		stop: stop,
