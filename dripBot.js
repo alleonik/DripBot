@@ -2,7 +2,7 @@ Highcharts.setOptions({colors:["#DDDF0D","#7798BF","#55BF3B","#DF5353","#aaeeee"
 
 $dripBot = (function($, oldDripBot, isPro) {
 
-	var host = 'https://apottere.github.io/DripBot/';
+	var host = 'https://alleonik.github.io/DripBot/';
 
 	if(oldDripBot instanceof Object) {
 		console.log("Stopping old DripBot and starting a new one.");
