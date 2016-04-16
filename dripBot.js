@@ -454,8 +454,8 @@ $dripBot = (function($, oldDripBot, isPro) {
 
 	var isSPexcluded = new Save(isSPexcluded, false); 
 
-	var toggleSPexcluded = function(bool) {
-		isSPexcluded.set(bool || false);
+	var toggleSPexcluded = function() {
+		isSPexcluded.set(! isSPexcluded.obj);
 		setExcludedPowerups();
 	}
 
