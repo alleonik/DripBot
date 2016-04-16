@@ -480,32 +480,30 @@ $dripBot = (function($, oldDripBot, isPro) {
 
     var setClicksMean = function(num) {
 		clicksMean.set(num);
-		updateClickInterval();
+		startClicking();
 	}
 
     var setClicksRndBound = function(num) {
 		clicksRndBound.set(num);
-		updateClickInterval();
+		startClicking();
 	}
 
     var setPauseMean = function(num) {
 		pauseMean.set(num);
-		updateClickInterval();
 	}
 
     var setPauseRndBound = function(num) {
 		pauseRndBound.set(num);
-		updateClickInterval();
 	}
 
     var setClickTimeMean = function(num) {
 		clickTimeMean.set(num);
-		updateClickInterval();
+		startClicking();
 	}
 
     var setClickTimeRndBound = function(num) {
 		clickTimeRndBound.set(num);
-		updateClickInterval();
+		startClicking();
 	}
 
 	function Rc4Random(seed) {
